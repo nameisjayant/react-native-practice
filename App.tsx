@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -25,35 +26,6 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -67,25 +39,68 @@ function App(): JSX.Element {
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
+        hidden = {false}
+        networkActivityIndicatorVisible = {true}
       />
-      <ScrollView
+      {/* <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+        style={backgroundStyle}> */}
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            height : Platform.OS === 'web' ? '100vh' : '100%'
           }}>
-          <Text>
+          <View style={textStyle.contentArrangementColumn}>
+          <Text style = {{
+          //  flex: 1
+          }}>
             Hello World!
           </Text>
-          <Text>
-            How are you!
+          <Text style = {{
+           // flex : 1
+          }}>
+            How are you?
           </Text>
+          <Text>
+            I am good?
+          </Text>
+          </View>
         </View>
-      </ScrollView>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
+
+const textStyle = StyleSheet.create({
+
+  firstText : {
+    color : 'red',
+    fontSize : 40,
+    fontWeight : 'bold',
+    margin : 20
+    
+  },
+
+  // Row  -> alignItems = Vertical & justifyContent = Horizontal
+  contentArrangement : {
+    flexDirection : 'row',
+   // flex : 1,
+     alignItems : 'center',
+    // justifyContent : 'center',
+    height : '100%',
+   
+  },
+  // Column -> alignItems - Horizontal & justifyContent = Vertical
+  contentArrangementColumn : {
+    flexDirection : 'column',
+   // flex : 1,
+     alignItems : 'center',
+    // justifyContent : 'center',
+    height : '100%',
+   
+  }
+
+})
 
 const styles = StyleSheet.create({
   sectionContainer: {
